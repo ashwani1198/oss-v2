@@ -13,7 +13,7 @@ const { form, canSubmit }  =  useEmailLogin()
 
 const onSubmit = () => {
     if(canSubmit.value) {
-        router.push({ name: '/members' })
+        router.push({ name: '/members/' })
     }
 }
 </script>
