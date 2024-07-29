@@ -2,6 +2,7 @@
 import { TableCell, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Ellipsis } from 'lucide-vue-next'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 
 import { useRouter } from 'vue-router/auto'
 
@@ -11,8 +12,8 @@ const props = defineProps<{
   member: Member
 }>()
 
-const test = () => {
-    console.log('test')
+const test = (member:Member) => {
+  console.log('test',member)
 }
 
 const router = useRouter()
@@ -33,9 +34,16 @@ const router = useRouter()
     <TableCell class="max-w-md p-2">{{ member.renewal_date }} </TableCell>
     <TableCell class="max-w-md p-2 capitalize">{{ member.membership_type }} </TableCell>
     <TableCell>
-        <Button size="icon" variant="ghost" @mouseenter="test">
-            <Ellipsis class="h-6 w-6 text-black"/>
-        </Button>
+      <HoverCard :open-delay="0" :close-delay="0">
+        <HoverCardTrigger>
+          <Button size="icon" variant="ghost">
+            <Ellipsis class="h-6 w-6 text-black" />
+          </Button>
+        </HoverCardTrigger>
+        <HoverCardContent :side="'bottom'" :align="'center'" class="p-1">
+            <Button class="w-full" variant="ghost" @click="test(member)"> EDIT </Button>
+        </HoverCardContent>
+      </HoverCard>
     </TableCell>
   </TableRow>
 </template>

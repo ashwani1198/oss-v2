@@ -12,7 +12,7 @@ export const MemberQuerySchema = z.object({
   status: z.string().optional(),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
-  membership_type: z.string().optional(),
+  membership_type: z.enum(['lifetime','annual']),
   general_body_meeting_date: z.string().optional()
 })
 
