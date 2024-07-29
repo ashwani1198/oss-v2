@@ -51,7 +51,7 @@ const { isLoading } = useLoadingDialog()
   top: calc(-10px * 2 / 3);
   margin-right: calc(10px / 3);
   margin-top: calc(10px / 3);
-  background: #0b5ed7;
+  background: black;
   float: left;
   position: relative;
   opacity: 0;

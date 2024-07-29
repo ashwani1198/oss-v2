@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import CTable from '@/components/custom/CTable.vue'
 import MembersTableRow from './MembersTableRow.vue'
+import MemberTableRowSkeleton from '@/components/MemberTableRowSkeleton.vue'
 
 import { type Member } from '@/api/oss/models'
 
@@ -33,5 +34,6 @@ onMounted(() => {
     <template v-if="members.length">
       <MembersTableRow v-for="member in members" :key="member.ref_id" :member="member" />
     </template>
+    <MemberTableRowSkeleton v-else />
   </CTable>
 </template>
