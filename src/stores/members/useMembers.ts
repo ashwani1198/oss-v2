@@ -7,15 +7,15 @@ import { useErrorToast } from '@/composables/useToastAlerts'
 import type { MemberQueryParams } from '@/api/utils/attachQueryParams'
 
 export interface payloadPages {
-  page: number;
-  total_pages: number ;
+  page: number
+  total_pages: number
 }
 
 export const useMembers = defineStore('members', () => {
   const members = ref<Member[]>([])
   const paginatedPayload = ref<payloadPages>({
     page: 1,
-    total_pages:1
+    total_pages: 1
   })
 
   const addToList = (value: Member, addToFront = false) => {
@@ -40,10 +40,9 @@ export const useMembers = defineStore('members', () => {
     }
   }
 
-  const fetchPaginatedMembers = async (query:MemberQueryParams) => {
-
+  const fetchPaginatedMembers = async (query: MemberQueryParams) => {
     members.value.splice(0, members.value.length)
-    
+
     const [err, result] = await AppApi.ossMembers.members.getMembers(query)
 
     if (err) {
@@ -58,7 +57,7 @@ export const useMembers = defineStore('members', () => {
       addToList(result.data[x])
     }
 
-    const { page,total_pages } = result
+    const { page, total_pages } = result
     paginatedPayload.value = {
       page: page,
       total_pages: total_pages

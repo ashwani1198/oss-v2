@@ -15,7 +15,7 @@ export class OssApi {
       this._instance = new OssApi({
         baseUrl: appEnv.VITE_OSS_API_URL,
         requestHeaders: {
-          'Authorization': `Bearer ${appEnv.VITE_AUTH_TOKEN}`
+          Authorization: `Bearer ${appEnv.VITE_AUTH_TOKEN}`
         },
         auth: data?.auth ?? undefined
       })
@@ -27,5 +27,4 @@ export class OssApi {
   get members() {
     return resources.members(this._httpClient)
   }
-
 }

@@ -4,13 +4,12 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { LogOut } from 'lucide-vue-next'
-import { useRouter} from 'vue-router/auto'
+import { useRouter } from 'vue-router/auto'
 
 const router = useRouter()
 const logoutUser = () => {
-
   router.push({
-    name:'/login/',
+    name: '/login/',
     replace: true
   })
 }

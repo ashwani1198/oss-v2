@@ -1,3 +1,3 @@
-import members from "./members";
+import members from './members'
 
 export { members }

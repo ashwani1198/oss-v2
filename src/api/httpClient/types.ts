@@ -1,7 +1,7 @@
 export interface PaginationResult<T> {
   page: number
-  total_pages:number,
-  count:number,
+  total_pages: number
+  count: number
   data: T[]
 }
 
@@ -12,7 +12,7 @@ export type HttpErrorResponseAttr = {
 }
 
 export interface ErrorResponseData {
-  detail:string
+  detail: string
 }
 
 export interface HttpRequestHeaders {

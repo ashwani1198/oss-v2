@@ -12,8 +12,9 @@ const props = defineProps<{
   member: Member
 }>()
 
-const test = (member:Member) => {
-  console.log('test',member)
+const test = (member: Member) => {
+  console.log('test', member)
+  router.push(`/members/${member.id}`)
 }
 
 const router = useRouter()
@@ -41,7 +42,7 @@ const router = useRouter()
           </Button>
         </HoverCardTrigger>
         <HoverCardContent :side="'bottom'" :align="'center'" class="p-1">
-            <Button class="w-full" variant="ghost" @click="test(member)"> EDIT </Button>
+          <Button class="w-full" variant="ghost" @click="test(member)"> EDIT </Button>
         </HoverCardContent>
       </HoverCard>
     </TableCell>

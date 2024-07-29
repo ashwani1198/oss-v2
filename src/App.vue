@@ -5,6 +5,7 @@ import AuthorizedLayout from './layouts/AuthorizedLayout.vue'
 import DefaultLayout from './layouts/DefaultLayout.vue'
 import { Toaster } from './components/ui/toast'
 import { RouterView } from 'vue-router/auto'
+import Loading from './components/Loading/Loading.vue'
 
 const router = useRouter()
 const isLoggedIn = computed(() => {
@@ -14,11 +15,12 @@ const isLoggedIn = computed(() => {
 
 <template>
   <div>
-    <Toaster/>
+    <Toaster />
     <AuthorizedLayout v-if="isLoggedIn">
       <router-view v-slot="{ Component }">
         <component :is="Component" />
       </router-view>
+      <Loading />
     </AuthorizedLayout>
     <DefaultLayout v-if="!isLoggedIn">
       <router-view v-slot="{ Component }">
@@ -71,4 +73,3 @@ const isLoggedIn = computed(() => {
   scrollbar-color: red;
 }
 </style>
-
