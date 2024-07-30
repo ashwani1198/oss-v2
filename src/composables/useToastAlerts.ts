@@ -67,3 +67,16 @@ export function useActionToast({
     )
   })
 }
+
+export function useSuccessToast(msg: string) {
+  const { toast } = useToast()
+
+  toast({
+    title: 'Success',
+    description: msg,
+    type: 'foreground',
+    variant: 'default',
+    duration: 1000,
+    class:'bg-green-500 text-white'
+  })
+}

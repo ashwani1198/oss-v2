@@ -20,19 +20,14 @@ import { watch } from 'vue'
 
 const { showLoading, hideLoading } = useLoadingDialog()
 const { fetchPaginatedMembers } = useMembers()
-const { paginatedPayload } = storeToRefs(useMembers())
+const { paginatedPayload,currentPage,query } = storeToRefs(useMembers())
 
-const currentPage = ref(paginatedPayload.value.page)
+
 
 watch(currentPage, async () => {
+  query.value.page = currentPage.value
   showLoading()
-  await fetchPaginatedMembers({
-    page: currentPage.value,
-    per_page: 20,
-    order: 'asc',
-    order_by: 'first_name',
-    membership_type: 'lifetime'
-  })
+  await fetchPaginatedMembers(query.value)
   hideLoading()
 })
 </script>

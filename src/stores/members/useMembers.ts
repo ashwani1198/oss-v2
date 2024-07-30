@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 import { type Member, MemberSchema } from '@/api/oss/models'
 import { AppApi } from '@/api/AppApi'
-import { useErrorToast } from '@/composables/useToastAlerts'
+import { useDefaultToast, useErrorToast } from '@/composables/useToastAlerts'
 import type { MemberQueryParams } from '@/api/utils/attachQueryParams'
 
 export interface payloadPages {
@@ -13,10 +13,21 @@ export interface payloadPages {
 
 export const useMembers = defineStore('members', () => {
   const members = ref<Member[]>([])
+  const currentPage = ref(1)
+  const query = ref<MemberQueryParams>({
+    page: currentPage.value,
+    per_page: 20,
+    order_by: 'first_name',
+    order: 'asc',
+    membership_type: 'lifetime',
+  })
+  
+  
   const paginatedPayload = ref<payloadPages>({
     page: 1,
     total_pages: 1
   })
+
 
   const addToList = (value: Member, addToFront = false) => {
     const parsedData = MemberSchema.safeParse(value)
@@ -58,17 +69,46 @@ export const useMembers = defineStore('members', () => {
     }
 
     const { page, total_pages } = result
-    paginatedPayload.value = {
+      paginatedPayload.value = {
       page: page,
       total_pages: total_pages
     }
-    console.log('fetchPaginatedMembers', paginatedPayload.value)
+    return true
+  }
+
+  const updateOne = async (memberId: number, data: Partial<Member>) => {
+    const [err, result] = await AppApi.ossMembers.members.updateOne(memberId, data)
+
+    if (err) {
+      useErrorToast(`An error occurred while updating form formField. ${err}`)
+      return false
+    }
+
+    addToList(result)
+
+    return true
+  }
+
+  const deleteOne = async (memberId: number) => {
+    const [err, msg] = await AppApi.ossMembers.members.deleteOne(memberId)
+
+    if (err) {
+      useErrorToast(`An error occurred while deleting member Id ${memberId}. ${err}`)
+      return false
+    }
+
+    members.value = members.value.filter((member) => member.id !== memberId)
+
     return true
   }
 
   return {
     members,
+    paginatedPayload,
     fetchPaginatedMembers,
-    paginatedPayload
+    updateOne,
+    deleteOne,
+    query,
+    currentPage
   }
 })

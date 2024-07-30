@@ -22,7 +22,7 @@ export const MemberSchema = z.object({
   city: z.string().optional().nullable().default(null),
   province: z.string().optional().nullable().default(null),
   country: z.string().optional().nullable().default(null),
-  postal_code: z.string(),
+  postal_code: z.string().optional().nullable().default(null),
   last_document_sigining_date: z.string(),
   renewal_date: z.string(),
   previous_renewal_date: z.string().optional().nullable().default(null),

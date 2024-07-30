@@ -1,29 +1,21 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import MembersCard from './components/MembersCard.vue'
 import { useMembers } from '@/stores/members/useMembers'
 import { useLoadingDialog } from '@/composables/useLoadingDialog'
-import type { MemberQueryParams } from '@/api/utils/attachQueryParams'
+
 
 const { showLoading, hideLoading } = useLoadingDialog()
 const { fetchPaginatedMembers } = useMembers()
-
-const query = ref<MemberQueryParams>({
-  page: 1,
-  per_page: 20,
-  order_by: 'first_name',
-  order: 'asc',
-  membership_type: 'lifetime'
-})
+const  { query } = storeToRefs(useMembers())
 
 const isReady = ref<boolean>(false)
 
 const init = async () => {
   showLoading()
-
   await fetchPaginatedMembers(query.value)
   isReady.value = true
-
   hideLoading()
 }
 
