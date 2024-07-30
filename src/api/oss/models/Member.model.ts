@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { DateStringSchema } from '../common/zodSchemas'
 
 export const MembershipTypeSchema = z.enum(['annual', 'lifetime'])
 export type MembershipType = z.infer<typeof MembershipTypeSchema>
@@ -23,9 +24,9 @@ export const MemberSchema = z.object({
   province: z.string().optional().nullable().default(null),
   country: z.string().optional().nullable().default(null),
   postal_code: z.string().optional().nullable().default(null),
-  last_document_sigining_date: z.string(),
-  renewal_date: z.string(),
-  previous_renewal_date: z.string().optional().nullable().default(null),
+  last_document_sigining_date:DateStringSchema.optional().default(null),
+  renewal_date: DateStringSchema.optional().default(null),
+  previous_renewal_date:DateStringSchema.optional().default(null),
   membership_type: MembershipTypeSchema.default('lifetime'),
   status: MemberStatusSchema.default('active'),
   is_archived: z.boolean().default(false),

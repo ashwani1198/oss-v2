@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
- "scripts": {
+  "scripts": {
     "dev": "vite --port 8080",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -20,6 +20,7 @@
     "@vueuse/core": "^10.11.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "libphonenumber-js": "^1.11.5",
     "lucide-vue-next": "^0.416.0",
     "pinia": "^2.2.0",
     "radix-vue": "^1.9.2",

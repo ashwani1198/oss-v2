@@ -1,9 +1,10 @@
 import { z } from 'zod'
+import { DateStringSchema } from '../oss/common/zodSchemas'
 
 export const MemberQuerySchema = z.object({
   page: z.number().optional().default(1),
   per_page: z.number().optional().default(20),
-  search: z.string().optional(),
+  search: z.string().optional().nullable().default(null),
   order_by: z
     .enum([
       'first_name',
@@ -18,11 +19,11 @@ export const MemberQuerySchema = z.object({
   first_name: z.string().optional(),
   last_name: z.string().optional(),
   address: z.string().optional(),
-  status: z.string().optional(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-  membership_type: z.enum(['lifetime', 'annual']),
-  general_body_meeting_date: z.string().optional()
+  status: z.string().optional().nullable().default(null),
+  start_date: DateStringSchema.optional(),
+  end_date: DateStringSchema.optional(),
+  membership_type:z.string().optional().nullable().default(null),
+  general_body_meeting_date: DateStringSchema.optional()
 })
 
 export type MemberQueryParams = z.infer<typeof MemberQuerySchema>
@@ -57,8 +58,8 @@ export const attachQueryParams = (url: string, params: MemberQueryParams): strin
   if (params.last_name) url += mergeStr(LASTNAME, params.last_name)
   if (params.address) url += mergeStr(ADDRESS, params.address)
   if (params.status) url += mergeStr(STATUS, params.status)
-  if (params.startDate) url += mergeStr(START_DATE, params.startDate)
-  if (params.endDate) url += mergeStr(END_DATE, params.endDate)
+  if (params.start_date) url += mergeStr(START_DATE, params.start_date)
+  if (params.end_date) url += mergeStr(END_DATE, params.end_date)
   if (params.membership_type) url += mergeStr(MEMBERSHIPTYPE, params.membership_type)
   if (params.general_body_meeting_date)
     url += mergeStr(GENERAL_BODY_MEETING_DATE, params.general_body_meeting_date)
