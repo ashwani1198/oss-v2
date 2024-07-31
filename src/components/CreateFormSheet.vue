@@ -51,7 +51,7 @@ const close = () => {
           </Button>
         </div>
         <div
-          class="min-h-[calc(100svh_-_80px)] max-h-[calc(100svh_-_80px)] overflow-y-auto w-full  md:custom-scrollbar custom-scrollbar-thin"
+          class="min-h-[calc(100svh_-_80px)] max-h-[calc(100svh_-_80px)] overflow-y-auto w-full md:custom-scrollbar custom-scrollbar-thin"
         >
           <slot />
         </div>

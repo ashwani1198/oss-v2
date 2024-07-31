@@ -77,6 +77,6 @@ export function useSuccessToast(msg: string) {
     type: 'foreground',
     variant: 'default',
     duration: 1000,
-    class:'bg-green-500 text-white'
+    class: 'bg-green-500 text-white'
   })
 }

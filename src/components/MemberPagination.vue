@@ -20,9 +20,7 @@ import { watch } from 'vue'
 
 const { showLoading, hideLoading } = useLoadingDialog()
 const { fetchPaginatedMembers } = useMembers()
-const { paginatedPayload,currentPage,query } = storeToRefs(useMembers())
-
-
+const { paginatedPayload, currentPage, query } = storeToRefs(useMembers())
 
 watch(currentPage, async () => {
   query.value.page = currentPage.value

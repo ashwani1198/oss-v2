@@ -12,26 +12,27 @@ import NewMemberForm from './NewMemberForm.vue'
 const { hideFormSheet, showFormSheet } = useFormSheets()
 
 const { sheetState } = storeToRefs(useFormSheets())
-
+const { selectedMember } = storeToRefs(useMembers())
+const { setSelectedMember } = useMembers()
 
 const props = defineProps<{
   member?: Member
 }>()
 
-// watch(selectedForm, () => {
-//   if (!selectedForm.value) {
-//     hideFormSheet()
-//   } else {
-//     showFormSheet('form')
-//   }
-// })
+watch(selectedMember, () => {
+  if (!selectedMember.value) {
+    hideFormSheet()
+  } else {
+    showFormSheet('member')
+  }
+})
 
 const showForm = computed(() => {
   return sheetState.value.isOpen && sheetState.value.formSheetType === 'member'
 })
 
 const toggleFormSheet = () => {
-  // setSelectedForm(undefined)
+  setSelectedMember(undefined)
 
   hideFormSheet()
 }

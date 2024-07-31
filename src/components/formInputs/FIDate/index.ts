@@ -1,1 +1,1 @@
-export { default as FIDate  } from './FIDate.vue'
+export { default as FIDate } from './FIDate.vue'

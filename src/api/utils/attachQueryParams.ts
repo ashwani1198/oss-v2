@@ -22,7 +22,7 @@ export const MemberQuerySchema = z.object({
   status: z.string().optional().nullable().default(null),
   start_date: DateStringSchema.optional(),
   end_date: DateStringSchema.optional(),
-  membership_type:z.string().optional().nullable().default(null),
+  membership_type: z.string().optional().nullable().default(null),
   general_body_meeting_date: DateStringSchema.optional()
 })
 

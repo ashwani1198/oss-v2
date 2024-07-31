@@ -24,9 +24,9 @@ export const MemberSchema = z.object({
   province: z.string().optional().nullable().default(null),
   country: z.string().optional().nullable().default(null),
   postal_code: z.string().optional().nullable().default(null),
-  last_document_sigining_date:DateStringSchema.optional().default(null),
+  last_document_sigining_date: DateStringSchema.optional().default(null),
   renewal_date: DateStringSchema.optional().default(null),
-  previous_renewal_date:DateStringSchema.optional().default(null),
+  previous_renewal_date: DateStringSchema.optional().default(null),
   membership_type: MembershipTypeSchema.default('lifetime'),
   status: MemberStatusSchema.default('active'),
   is_archived: z.boolean().default(false),
@@ -51,10 +51,11 @@ export const MemberCreationSchema = MemberSchema.omit({
   address_line_2: true,
   renewal_date: true,
   previous_renewal_date: true,
-  status: true,
+  status: true
 }).extend({
   first_name: z.string({
-    required_error: 'First name is required'}),
+    required_error: 'First name is required'
+  }),
   middle_name: z.string().optional().nullable().default(null),
   last_name: z.string({
     required_error: 'Last name is required'
@@ -80,7 +81,10 @@ export const MemberCreationSchema = MemberSchema.omit({
     required_error: 'Postal code is required'
   }),
   membership_type: MembershipTypeSchema.default('lifetime'),
-  last_document_sigining_date:DateStringSchema.optional().default(new Date().toISOString().split('T')[0]),
+  last_document_sigining_date: DateStringSchema.optional().default(
+    new Date().toISOString().split('T')[0]
+  ),
+  status: MemberStatusSchema.default('active')
 })
 
 export type MemberCreationData = z.infer<typeof MemberCreationSchema>

@@ -36,13 +36,13 @@ export function useSearchFilter(initialValues?: Partial<MemberSearchFilter>) {
   })
 
   const membershipTypeOptions: { value: MembershipType; label: string }[] = [
-      { value: 'lifetime', label: 'Lifetime' },
-    { value: 'annual', label: 'Annual' },
+    { value: 'lifetime', label: 'Lifetime' },
+    { value: 'annual', label: 'Annual' }
   ]
 
   const statusOptions: { value: 'active' | 'inactive'; label: string }[] = [
     { value: 'active', label: 'Active' },
-    { value: 'inactive', label: 'Inactive' },
+    { value: 'inactive', label: 'Inactive' }
   ]
 
   return {

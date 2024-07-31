@@ -8,11 +8,18 @@ import { Button } from '@/components/ui/button'
 import { RefreshCw } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 import { useMembers } from '@/stores/members/useMembers'
+import { useErrorToast, useSuccessToast } from '@/composables/useToastAlerts'
 import type { Member, MemberCreationData } from '@/api/oss/models'
 import { useLoadingDialog } from '@/composables/useLoadingDialog'
 import { useMemberForm } from '@/composables/forms/members/useMemberForm'
 
 const { showLoading, hideLoading } = useLoadingDialog()
+const { fetchPaginatedMembers, createOne, updateOne } = useMembers()
+const { query } = storeToRefs(useMembers())
+
+const emit = defineEmits<{
+  (event: 'completed'): void
+}>()
 
 const props = defineProps<{
   member?: Member
@@ -23,7 +30,25 @@ const { form, canSubmit, countryOptions, membershipTypeOptions, provinceOptions 
 )
 
 const onSubmit = form.handleSubmit(async (values) => {
-  console.log(values)
+  try {
+    showLoading()
+    if (props.member) {
+      await updateOne(props.member.id, values)
+      useSuccessToast('Member updated successfully')
+    } else {
+      const result = await createOne(values)
+      if (result) {
+        form.resetForm()
+      }
+      await fetchPaginatedMembers(query.value)
+      useSuccessToast('Member created successfully')
+    }
+    emit('completed')
+  } catch (error) {
+    console.error('An error occurred:', error)
+  } finally {
+    hideLoading()
+  }
 })
 </script>
 <template>

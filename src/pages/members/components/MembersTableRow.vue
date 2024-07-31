@@ -10,21 +10,22 @@ import BaseAlertDialog from '@/components/BaseAlertDialog.vue'
 import { useSuccessToast } from '@/composables/useToastAlerts'
 import { useMembers } from '@/stores/members/useMembers'
 import { useLoadingDialog } from '@/composables/useLoadingDialog'
-
+import { useFormSheets } from '@/stores/shared/useSheets'
 import { useRouter } from 'vue-router/auto'
-
 import { type Member } from '@/api/oss/models'
 
-const { deleteOne,updateOne,fetchPaginatedMembers } = useMembers()
-const { showLoading,hideLoading } = useLoadingDialog()
-const { currentPage,query } = storeToRefs(useMembers())
+const { showFormSheet } = useFormSheets()
+const { deleteOne, updateOne, fetchPaginatedMembers, setSelectedMember } = useMembers()
+const { showLoading, hideLoading } = useLoadingDialog()
+const { currentPage, query } = storeToRefs(useMembers())
 
 const props = defineProps<{
   member: Member
 }>()
 
-const test = (member: Member) => {
-  console.log('test', member)
+const editMember = (member: Member) => {
+  setSelectedMember(member)
+  showFormSheet('member')
 }
 
 const viewProfile = (memberId: number) => {
@@ -35,11 +36,10 @@ const router = useRouter()
 const showDelete = ref(false)
 
 const confirmDelete = async () => {
-
   const result = await updateOne(props.member.id, {
-    is_archived : true
+    is_archived: true
   })
-  if(result){
+  if (result) {
     showLoading()
     await fetchPaginatedMembers(query.value)
     hideLoading()
@@ -78,10 +78,12 @@ const confirmDelete = async () => {
             </Button>
           </HoverCardTrigger>
           <HoverCardContent :side="'bottom'" :align="'center'" class="p-1 text-left">
-            <Button class="w-full flex justify-start" variant="ghost" @click="test(member)">
+            <Button class="w-full flex justify-start" variant="ghost" @click="editMember(member)">
               Edit
             </Button>
-            <Button class="w-full flex justify-start" variant="ghost" @click="showDelete = true"> Delete </Button>
+            <Button class="w-full flex justify-start" variant="ghost" @click="showDelete = true">
+              Delete
+            </Button>
             <Button class="w-full flex justify-start" variant="ghost"> Add Notes </Button>
             <Button class="w-full flex justify-start" variant="ghost"> Add Receipt </Button>
             <Button class="w-full flex justify-start" variant="ghost">
@@ -105,7 +107,7 @@ const confirmDelete = async () => {
             </Button>
           </PopoverTrigger>
           <PopoverContent :align="'center'" :side="'bottom'" class="p-1">
-            <Button class="w-full flex justify-start" variant="ghost" @click="test(member)">
+            <Button class="w-full flex justify-start" variant="ghost" @click="editMember(member)">
               Edit
             </Button>
             <Button class="w-full flex justify-start" variant="ghost"> Delete </Button>

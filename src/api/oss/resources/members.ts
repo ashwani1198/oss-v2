@@ -1,5 +1,5 @@
 import { type FetchClient, type PaginationResult } from '@/api/httpClient'
-import { type Member } from '../models'
+import { type Member, type MemberCreationData } from '../models'
 import type { MemberQueryParams } from '@/api/utils/attachQueryParams'
 import { attachQueryParams, MemberQuerySchema } from '@/api/utils/attachQueryParams'
 
@@ -12,17 +12,16 @@ export default (httpClient: FetchClient) => {
       return await httpClient.get<PaginationResult<Member>>(url)
     },
 
-    updateOne: async (memberId:number, data: Partial<Member>) => {
-      return await httpClient.patch<Member>(
-        `/api/members/${memberId}`,
-        data
-      )
+    createOne: async (data: MemberCreationData) => {
+      return await httpClient.post<Member>(`/api/members/`, data)
     },
 
-    deleteOne: async (memberId:number) => {
-      return await httpClient.delete<{ msg: string }>(
-        `/api/members/${memberId}`
-      )
+    updateOne: async (memberId: number, data: Partial<Member>) => {
+      return await httpClient.patch<Member>(`/api/members/${memberId}`, data)
     },
+
+    deleteOne: async (memberId: number) => {
+      return await httpClient.delete<{ msg: string }>(`/api/members/${memberId}`)
+    }
   }
 }

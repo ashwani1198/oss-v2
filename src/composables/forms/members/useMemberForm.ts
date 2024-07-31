@@ -25,7 +25,8 @@ export function useMemberForm(initialValues?: Partial<MemberCreationData>) {
       email: initialValues?.email ?? null,
       last_document_sigining_date:
         initialValues?.last_document_sigining_date ?? new Date().toISOString().split('T')[0],
-      membership_type: initialValues?.membership_type ?? 'lifetime'
+      membership_type: initialValues?.membership_type ?? 'lifetime',
+      status: initialValues?.status ?? 'active'
     }
   })
 

@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-import { type Member, MemberSchema } from '@/api/oss/models'
+import { type Member, type MemberCreationData, MemberSchema } from '@/api/oss/models'
 import { AppApi } from '@/api/AppApi'
 import { useDefaultToast, useErrorToast } from '@/composables/useToastAlerts'
 import type { MemberQueryParams } from '@/api/utils/attachQueryParams'
@@ -13,6 +13,7 @@ export interface payloadPages {
 
 export const useMembers = defineStore('members', () => {
   const members = ref<Member[]>([])
+  const selected = ref<Member | undefined>()
   const currentPage = ref(1)
   const query = ref<MemberQueryParams>({
     page: currentPage.value,
@@ -22,15 +23,21 @@ export const useMembers = defineStore('members', () => {
     membership_type: 'lifetime',
     address: null,
     search: null,
-    status: null,
+    status: null
   })
-  
-  
+
   const paginatedPayload = ref<payloadPages>({
     page: 1,
     total_pages: 1
   })
 
+  const setSelected = (value: Member | undefined) => {
+    if (value) {
+      selected.value = value
+    } else {
+      selected.value = undefined
+    }
+  }
 
   const addToList = (value: Member, addToFront = false) => {
     const parsedData = MemberSchema.safeParse(value)
@@ -72,10 +79,23 @@ export const useMembers = defineStore('members', () => {
     }
 
     const { page, total_pages } = result
-      paginatedPayload.value = {
+    paginatedPayload.value = {
       page: page,
       total_pages: total_pages
     }
+    return true
+  }
+
+  const createOne = async (data: MemberCreationData) => {
+    const [err, result] = await AppApi.ossMembers.members.createOne(data)
+
+    if (err) {
+      useErrorToast(err.msg)
+      return false
+    }
+
+    addToList(result, true)
+
     return true
   }
 
@@ -107,10 +127,13 @@ export const useMembers = defineStore('members', () => {
 
   return {
     members,
+    selectedMember: selected,
     paginatedPayload,
     fetchPaginatedMembers,
     updateOne,
     deleteOne,
+    createOne,
+    setSelectedMember: setSelected,
     query,
     currentPage
   }

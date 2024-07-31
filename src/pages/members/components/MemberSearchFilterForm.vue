@@ -12,20 +12,18 @@ import { useSearchFilter } from '@/composables/forms/searchFilterForm/useSearchF
 const { showLoading, hideLoading } = useLoadingDialog()
 const { form, canSubmit, membershipTypeOptions, statusOptions } = useSearchFilter()
 const { fetchPaginatedMembers } = useMembers()
-const { query,currentPage } = storeToRefs(useMembers())
+const { query, currentPage } = storeToRefs(useMembers())
 
 const onSubmit = form.handleSubmit(async (values) => {
-  if(currentPage.value !== 1) {
+  if (currentPage.value !== 1) {
     // it will start from page 1 when search submit button is clicked if current page is not 1
     currentPage.value = 1
-    query.value.page = currentPage.value,
+    ;(query.value.page = currentPage.value), (query.value = { ...query.value, ...values })
+  } else {
     query.value = { ...query.value, ...values }
-  }
-  else {
-  query.value = { ...query.value, ...values }
-  showLoading()
-  await fetchPaginatedMembers(query.value)
-  hideLoading()
+    showLoading()
+    await fetchPaginatedMembers(query.value)
+    hideLoading()
   }
 })
 
@@ -66,7 +64,11 @@ const onCancel = async () => {
         />
         <FIDate :form="form" form-key="start_date" label="Start Date" />
         <FIDate :form="form" form-key="end_date" label="End Date" />
-        <FIDate :form="form" form-key="general_body_meeting_date" label="General Body Meeting Date" />
+        <FIDate
+          :form="form"
+          form-key="general_body_meeting_date"
+          label="General Body Meeting Date"
+        />
       </div>
       <div class="mt-5 flex self-end gap-2">
         <Button
@@ -77,9 +79,7 @@ const onCancel = async () => {
           <p v-if="!form.isSubmitting.value">Cancel</p>
         </Button>
         <Button type="submit" class="w-32 bg-black hover:bg-black" :disabled="!canSubmit">
-          <p v-if="!form.isSubmitting.value" class="flex justify-center items-center">
-            Search
-          </p>
+          <p v-if="!form.isSubmitting.value" class="flex justify-center items-center">Search</p>
           <RefreshCw v-else class="animate-spin" />
         </Button>
       </div>

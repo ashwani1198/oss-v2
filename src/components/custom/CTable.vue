@@ -14,7 +14,7 @@ const props = withDefaults(
 <template>
   <div class="relative">
     <table class="caption-bottom w-full text-sm">
-      <TableHeader class="bg-[#F0F0F0] sticky -top-0.5  z-10">
+      <TableHeader class="bg-[#F0F0F0] sticky -top-0.5 z-10">
         <TableRow class="sticky top-0">
           <TableHead
             v-for="(header, index) in tableHeaders"
