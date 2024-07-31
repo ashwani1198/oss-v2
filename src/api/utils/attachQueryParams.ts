@@ -18,7 +18,7 @@ export const MemberQuerySchema = z.object({
   order: z.enum(['asc', 'desc']).default('asc'),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
-  address: z.string().optional(),
+  address: z.string().optional().nullable().default(null),
   status: z.string().optional().nullable().default(null),
   start_date: DateStringSchema.optional(),
   end_date: DateStringSchema.optional(),

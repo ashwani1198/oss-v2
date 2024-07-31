@@ -20,6 +20,9 @@ export const useMembers = defineStore('members', () => {
     order_by: 'first_name',
     order: 'asc',
     membership_type: 'lifetime',
+    address: null,
+    search: null,
+    status: null,
   })
   
   

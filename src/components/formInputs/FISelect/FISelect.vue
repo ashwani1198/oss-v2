@@ -52,7 +52,7 @@ export default {
     :validate-on-input="false"
     :validate-on-change="false"
   >
-    <FormItem class="">
+    <FormItem class="relative">
       <FormLabel>{{ label }}</FormLabel>
       <Select v-bind="componentField">
         <FormControl>
@@ -66,7 +66,7 @@ export default {
         <SelectContent
           :class="
             cn(
-              'max-h-60 overflow-y-auto custom-scrollbar-thin border-none bg-input-background text-foreground',
+              'max-h-60 overflow-y-auto custom-scrollbar-thin border-none bg-white text-foreground',
               props.dropdownClass
             )
           "

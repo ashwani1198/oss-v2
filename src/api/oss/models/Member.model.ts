@@ -37,3 +37,50 @@ export const MemberSchema = z.object({
 })
 
 export type Member = z.infer<typeof MemberSchema>
+
+export const MemberCreationSchema = MemberSchema.omit({
+  id: true,
+  created_at: true,
+  updated_at: true,
+  parent_id: true,
+  deleted_at: true,
+  application_id: true,
+  is_archived: true,
+  is_deleted: true,
+  ref_id: true,
+  address_line_2: true,
+  renewal_date: true,
+  previous_renewal_date: true,
+  status: true,
+}).extend({
+  first_name: z.string({
+    required_error: 'First name is required'}),
+  middle_name: z.string().optional().nullable().default(null),
+  last_name: z.string({
+    required_error: 'Last name is required'
+  }),
+  primary_phone: z.string({
+    required_error: 'Primary phone is required'
+  }),
+  secondary_phone: z.string().optional().nullable().default(null),
+  email: z.string().email().optional().nullable().default(null),
+  address_line_1: z.string({
+    required_error: 'Address Field is required'
+  }),
+  city: z.string({
+    required_error: 'City is required'
+  }),
+  province: z.string({
+    required_error: 'Province is required'
+  }),
+  country: z.string({
+    required_error: 'Country is required'
+  }),
+  postal_code: z.string({
+    required_error: 'Postal code is required'
+  }),
+  membership_type: MembershipTypeSchema.default('lifetime'),
+  last_document_sigining_date:DateStringSchema.optional().default(new Date().toISOString().split('T')[0]),
+})
+
+export type MemberCreationData = z.infer<typeof MemberCreationSchema>

@@ -3,7 +3,7 @@ import FIText from '@/components/formInputs/FIText/FIText.vue'
 import FISelect from '@/components/formInputs/FISelect/FISelect.vue'
 import FIDate from '@/components/formInputs/FIDate/FIDate.vue'
 import { Button } from '@/components/ui/button'
-import { RefreshCw, Search } from 'lucide-vue-next'
+import { RefreshCw } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 import { useMembers } from '@/stores/members/useMembers'
 import { useLoadingDialog } from '@/composables/useLoadingDialog'
@@ -12,13 +12,21 @@ import { useSearchFilter } from '@/composables/forms/searchFilterForm/useSearchF
 const { showLoading, hideLoading } = useLoadingDialog()
 const { form, canSubmit, membershipTypeOptions, statusOptions } = useSearchFilter()
 const { fetchPaginatedMembers } = useMembers()
-const { query } = storeToRefs(useMembers())
+const { query,currentPage } = storeToRefs(useMembers())
 
 const onSubmit = form.handleSubmit(async (values) => {
+  if(currentPage.value !== 1) {
+    // it will start from page 1 when search submit button is clicked if current page is not 1
+    currentPage.value = 1
+    query.value.page = currentPage.value,
+    query.value = { ...query.value, ...values }
+  }
+  else {
   query.value = { ...query.value, ...values }
   showLoading()
   await fetchPaginatedMembers(query.value)
   hideLoading()
+  }
 })
 
 const onCancel = async () => {
@@ -70,7 +78,7 @@ const onCancel = async () => {
         </Button>
         <Button type="submit" class="w-32 bg-black hover:bg-black" :disabled="!canSubmit">
           <p v-if="!form.isSubmitting.value" class="flex justify-center items-center">
-            <Search class="h-6 w-6 mr-2" />Search
+            Search
           </p>
           <RefreshCw v-else class="animate-spin" />
         </Button>

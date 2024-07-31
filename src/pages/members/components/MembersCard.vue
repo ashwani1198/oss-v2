@@ -1,12 +1,22 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { storeToRefs } from 'pinia'
 import { useMembers } from '@/stores/members/useMembers'
+import { useFormSheets } from '@/stores/shared/useSheets'
 import MemberSearchFilterForm from './MemberSearchFilterForm.vue'
 import MembersTable from './MembersTable.vue'
 import MemberPagination from '@/components/MemberPagination.vue'
+import MemberSheet from './MemberSheet.vue'
 
 const { members } = storeToRefs(useMembers())
+const { hideFormSheet, showFormSheet } = useFormSheets()
+
+const showCreateForm = () => {
+  showFormSheet('member')
+}
+
 </script>
 
 <template>
@@ -17,9 +27,25 @@ const { members } = storeToRefs(useMembers())
       <div class="mb-2">
         <MemberSearchFilterForm />
       </div>
+      <div class="flex self-end gap-2">
+        <Button
+          class="md:w-[190px] w-full p-2 md:text-[1rem] text-[10px] rounded-lg"
+          size="icon"
+          @click="showCreateForm"
+        >
+          <span class="capitalize">Add New Member</span>
+        </Button>
+        <Button 
+          class="md:w-[100px] bg-[#157347] hover:bg-[#157347] w-full p-3 md:text-[1rem] text-[10px] rounded-lg"
+          size="icon"
+        >
+          <span class="capitalize">Export All</span>
+        </Button>
+      </div>
     </CardHeader>
     <CardContent class="p-0 custom-scrollbar-thin">
       <MembersTable :members="members"></MembersTable>
+      <MemberSheet></MemberSheet>
       <div class="md:flex md:items-center md:justify-end my-2 md:mr-4">
         <MemberPagination></MemberPagination>
       </div>
