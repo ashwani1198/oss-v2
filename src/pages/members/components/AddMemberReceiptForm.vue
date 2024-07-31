@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue'
-import { MemberNotesCreationSchema, type MemberNotesCreationData } from '@/api/oss/models'
+import { MemberReceiptsCreationSchema, type MemberReceiptsCreationData } from '@/api/oss/models'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import {
@@ -16,7 +16,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { RefreshCw, X } from 'lucide-vue-next'
 import FITextArea from '@/components/formInputs/FITextArea/FITextArea.vue'
-import { useMemberNotes } from '@/stores/members/useMemberNotes'
+import { useMemberReceipts } from '@/stores/members/useMemberReceipts'
 import { useSuccessToast } from '@/composables/useToastAlerts'
 
 const props = defineProps<{
@@ -25,17 +25,17 @@ const props = defineProps<{
 }>()
 
 const { isOpen } = toRefs(props)
-const { createNote } = useMemberNotes()
+const { createReceipt } = useMemberReceipts()
 
 const emit = defineEmits<{
   (event: 'update:isOpen', value: boolean): void
 }>()
 
 const form = useForm({
-  validationSchema: toTypedSchema(MemberNotesCreationSchema),
+  validationSchema: toTypedSchema(MemberReceiptsCreationSchema),
   validateOnMount: false,
   initialValues: {
-    notes: undefined
+    receipt_number: undefined
   }
 })
 
@@ -45,16 +45,16 @@ const close = () => {
 }
 
 const canSubmit = computed(() => {
-  return MemberNotesCreationSchema.safeParse(form.values).success && !form.isSubmitting.value
+  return MemberReceiptsCreationSchema.safeParse(form.values).success && !form.isSubmitting.value
 })
 
-const onSubmit = form.handleSubmit(async (values: MemberNotesCreationData) => {
-  const result = await createNote(props.memberId, values)
+const onSubmit = form.handleSubmit(async (values: MemberReceiptsCreationData) => {
+  const result = await createReceipt(props.memberId, values)
 
   if (result) {
     close()
   }
-  useSuccessToast('Note created successfully')
+  useSuccessToast('Receipt created successfully')
 })
 </script>
 <template>
@@ -74,7 +74,7 @@ const onSubmit = form.handleSubmit(async (values: MemberNotesCreationData) => {
       <form @submit="onSubmit">
         <DialogHeader>
           <DialogTitle class="capitalize tracking-wide font-semibold"
-            >Add Member Notes</DialogTitle
+            >Add Member Receipt</DialogTitle
           >
           <DialogDescription>{{ '' }}</DialogDescription>
         </DialogHeader>
@@ -82,8 +82,8 @@ const onSubmit = form.handleSubmit(async (values: MemberNotesCreationData) => {
           <div class="flex gap-y-5 flex-col w-full">
             <FITextArea
               :form="form"
-              form-key="notes"
-              label="Note *"
+              form-key="receipt_number"
+              label="Receipt *"
               required
               class="focus-visible:ring-primary"
             />

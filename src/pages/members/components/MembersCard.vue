@@ -28,14 +28,14 @@ const showCreateForm = () => {
       </div>
       <div class="flex self-end gap-2">
         <Button
-          class="md:w-[190px] w-full p-2 md:text-[1rem] text-[10px] rounded-lg"
+          class="md:w-[190px] w-full rounded-lg"
           size="icon"
           @click="showCreateForm"
         >
           <span class="capitalize">Add New Member</span>
         </Button>
         <Button
-          class="md:w-[100px] bg-[#157347] hover:bg-[#157347] w-full p-3 md:text-[1rem] text-[10px] rounded-lg"
+          class="md:w-[100px] bg-[#157347] hover:bg-[#157347] w-32 rounded-lg"
           size="icon"
         >
           <span class="capitalize">Export All</span>

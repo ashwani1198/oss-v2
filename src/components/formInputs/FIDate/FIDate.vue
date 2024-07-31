@@ -78,7 +78,7 @@ const df = new DateFormatter('en-US', {
 })
 
 const emits = defineEmits<CalendarRootEmits>()
-
+const isPopoverOpen = ref(false)
 const delegatedProps = computed(() => {
   const { class: _, placeholder: __, ...delegated } = props
 
@@ -160,6 +160,8 @@ const setDate = (date: DateValue) => {
     props.formKey,
     `${placeholder.value.year}-${date.month < 10 ? `0${date.month}` : date.month}-${date.day < 10 ? `0${date.day}` : date.day}`
   )
+
+  isPopoverOpen.value = false
 }
 </script>
 <template>
@@ -173,7 +175,7 @@ const setDate = (date: DateValue) => {
   >
     <FormItem>
       <FormLabel>{{ label }}</FormLabel>
-      <Popover>
+      <Popover :open="isPopoverOpen" @update:open="(open : boolean) => isPopoverOpen = open">
         <PopoverTrigger as-child>
           <FormControl>
             <Button

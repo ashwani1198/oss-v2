@@ -31,6 +31,19 @@ export const useMembers = defineStore('members', () => {
     total_pages: 1
   })
 
+  const resetQuery = () => {
+    query.value = {
+      page: currentPage.value,
+      per_page: 20,
+      order_by: 'first_name',
+      order: 'asc',
+      membership_type: 'lifetime',
+      address: null,
+      search: null,
+      status: null
+    }
+  }
+
   const setSelected = (value: Member | undefined) => {
     if (value) {
       selected.value = value
@@ -134,6 +147,7 @@ export const useMembers = defineStore('members', () => {
     deleteOne,
     createOne,
     setSelectedMember: setSelected,
+    resetQuery,
     query,
     currentPage
   }

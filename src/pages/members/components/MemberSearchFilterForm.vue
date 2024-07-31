@@ -10,9 +10,9 @@ import { useLoadingDialog } from '@/composables/useLoadingDialog'
 import { useSearchFilter } from '@/composables/forms/searchFilterForm/useSearchFilter'
 
 const { showLoading, hideLoading } = useLoadingDialog()
-const { form, canSubmit, membershipTypeOptions, statusOptions } = useSearchFilter()
 const { fetchPaginatedMembers } = useMembers()
 const { query, currentPage } = storeToRefs(useMembers())
+const { form, canSubmit, membershipTypeOptions, statusOptions } = useSearchFilter()
 
 const onSubmit = form.handleSubmit(async (values) => {
   if (currentPage.value !== 1) {

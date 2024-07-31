@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted,onBeforeUnmount } from 'vue'
 import { storeToRefs } from 'pinia'
 import MembersCard from './components/MembersCard.vue'
 import { useMembers } from '@/stores/members/useMembers'
 import { useLoadingDialog } from '@/composables/useLoadingDialog'
 
 const { showLoading, hideLoading } = useLoadingDialog()
-const { fetchPaginatedMembers } = useMembers()
+const { fetchPaginatedMembers,resetQuery } = useMembers()
 const { query } = storeToRefs(useMembers())
 
 const isReady = ref<boolean>(false)
@@ -20,6 +20,10 @@ const init = async () => {
 
 onMounted(() => {
   init()
+})
+
+onBeforeUnmount(() => {
+  resetQuery()
 })
 </script>
 <template>

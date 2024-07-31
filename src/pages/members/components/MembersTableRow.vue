@@ -14,6 +14,8 @@ import { useFormSheets } from '@/stores/shared/useSheets'
 import { useRouter } from 'vue-router/auto'
 import { type Member } from '@/api/oss/models'
 import AddMemberNoteForm from './AddMemberNoteForm.vue'
+import AddMemberReceiptForm from './AddMemberReceiptForm.vue'
+import AddDocumentSigningDateForm from './AddDocumentSigningDateForm.vue'
 
 const { showFormSheet } = useFormSheets()
 const { updateOne, fetchPaginatedMembers, setSelectedMember } = useMembers()
@@ -36,6 +38,8 @@ const viewProfile = (memberId: number) => {
 const router = useRouter()
 const showDelete = ref(false)
 const showCreateNote = ref(false)
+const showCreateReceipt = ref(false)
+const showAddDocumentSigningDate = ref(false)
 
 const confirmDelete = async () => {
   const result = await updateOne(props.member.id, {
@@ -58,6 +62,15 @@ const confirmDelete = async () => {
     @confirm="confirmDelete"
   />
   <AddMemberNoteForm v-model:is-open="showCreateNote" :member-id="member.id"></AddMemberNoteForm>
+  <AddMemberReceiptForm
+    v-model:is-open="showCreateReceipt"
+    :member-id="member.id"
+  ></AddMemberReceiptForm>
+  <AddDocumentSigningDateForm
+    v-model:is-open="showAddDocumentSigningDate"
+    :member-id="member.id"
+    :last-document-signing-date="member.last_document_sigining_date"
+  ></AddDocumentSigningDateForm>
   <TableRow class="group odd:bg-white even:bg-gray-100">
     <TableCell class="font-medium p-2">
       {{ member.ref_id }}
@@ -94,8 +107,18 @@ const confirmDelete = async () => {
             >
               Add Notes
             </Button>
-            <Button class="w-full flex justify-start" variant="ghost"> Add Receipt </Button>
-            <Button class="w-full flex justify-start" variant="ghost">
+            <Button
+              class="w-full flex justify-start"
+              variant="ghost"
+              @click="showCreateReceipt = true"
+            >
+              Add Receipt
+            </Button>
+            <Button
+              class="w-full flex justify-start"
+              variant="ghost"
+              @click="showAddDocumentSigningDate = true"
+            >
               Add Document Signing Date
             </Button>
             <Button class="w-full flex justify-start" variant="ghost">View Contract </Button>
@@ -129,8 +152,18 @@ const confirmDelete = async () => {
             >
               Add Notes
             </Button>
-            <Button class="w-full flex justify-start" variant="ghost"> Add Receipt </Button>
-            <Button class="w-full flex justify-start" variant="ghost">
+            <Button
+              class="w-full flex justify-start"
+              variant="ghost"
+              @click="showCreateReceipt = true"
+            >
+              Add Receipt
+            </Button>
+            <Button
+              class="w-full flex justify-start"
+              variant="ghost"
+              @click="showAddDocumentSigningDate = true"
+            >
               Add Document Signing Date
             </Button>
             <Button class="w-full flex justify-start" variant="ghost">View Contract </Button>

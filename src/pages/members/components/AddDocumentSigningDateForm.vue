@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue'
-import { MemberNotesCreationSchema, type MemberNotesCreationData } from '@/api/oss/models'
+import { type Member, LastDocumentSigningDateSchema } from '@/api/oss/models'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import {
@@ -15,27 +15,29 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { RefreshCw, X } from 'lucide-vue-next'
-import FITextArea from '@/components/formInputs/FITextArea/FITextArea.vue'
-import { useMemberNotes } from '@/stores/members/useMemberNotes'
+import FIDate from '@/components/formInputs/FIDate/FIDate.vue'
+import { useMembers } from '@/stores/members/useMembers'
 import { useSuccessToast } from '@/composables/useToastAlerts'
 
 const props = defineProps<{
   isOpen: boolean
   memberId: number
+  lastDocumentSigningDate: string | null
 }>()
 
 const { isOpen } = toRefs(props)
-const { createNote } = useMemberNotes()
+const { updateOne } = useMembers()
 
 const emit = defineEmits<{
   (event: 'update:isOpen', value: boolean): void
 }>()
 
 const form = useForm({
-  validationSchema: toTypedSchema(MemberNotesCreationSchema),
+  validationSchema: toTypedSchema(LastDocumentSigningDateSchema),
   validateOnMount: false,
   initialValues: {
-    notes: undefined
+    last_document_sigining_date:
+      props.lastDocumentSigningDate ?? new Date().toISOString().split('T')[0]
   }
 })
 
@@ -45,16 +47,16 @@ const close = () => {
 }
 
 const canSubmit = computed(() => {
-  return MemberNotesCreationSchema.safeParse(form.values).success && !form.isSubmitting.value
+  return LastDocumentSigningDateSchema.safeParse(form.values).success && !form.isSubmitting.value
 })
 
-const onSubmit = form.handleSubmit(async (values: MemberNotesCreationData) => {
-  const result = await createNote(props.memberId, values)
+const onSubmit = form.handleSubmit(async (values: Pick<Member, 'last_document_sigining_date'>) => {
+  const result = await updateOne(props.memberId, values)
 
   if (result) {
     close()
   }
-  useSuccessToast('Note created successfully')
+  useSuccessToast('Last document signing date updated successfully')
 })
 </script>
 <template>
@@ -74,24 +76,26 @@ const onSubmit = form.handleSubmit(async (values: MemberNotesCreationData) => {
       <form @submit="onSubmit">
         <DialogHeader>
           <DialogTitle class="capitalize tracking-wide font-semibold"
-            >Add Member Notes</DialogTitle
+            >Add Document Signing Date</DialogTitle
           >
           <DialogDescription>{{ '' }}</DialogDescription>
         </DialogHeader>
         <div class="w-full">
           <div class="flex gap-y-5 flex-col w-full">
-            <FITextArea
+            <FIDate
               :form="form"
-              form-key="notes"
-              label="Note *"
-              required
-              class="focus-visible:ring-primary"
+              form-key="last_document_sigining_date"
+              label="Document Signing *"
             />
           </div>
         </div>
         <DialogFooter>
           <div class="flex gap-2 justify-end">
-            <Button type="button" @click="close" class="mt-5 bg-[#e5e7eb] hover:bg-[#e5e7eb] text-black w-32">
+            <Button
+              type="button"
+              @click="close"
+              class="mt-5 bg-[#e5e7eb] hover:bg-[#e5e7eb] text-black w-32"
+            >
               Cancel
             </Button>
             <Button type="submit" class="mt-5 w-32">

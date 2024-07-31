@@ -1,5 +1,12 @@
 import { type FetchClient, type PaginationResult } from '@/api/httpClient'
-import type { Member, MemberCreationData, MemberNotesCreationData, MemberNotes } from '../models'
+import type {
+  Member,
+  MemberCreationData,
+  MemberNotesCreationData,
+  MemberNotes,
+  MemberReceiptsCreationData,
+  MemberReceipts
+} from '../models'
 import type { MemberQueryParams } from '@/api/utils/attachQueryParams'
 import { attachQueryParams, MemberQuerySchema } from '@/api/utils/attachQueryParams'
 
@@ -34,6 +41,24 @@ export default (httpClient: FetchClient) => {
 
     deleteNote: async (memberId: number, noteId: number) => {
       return await httpClient.delete<MemberNotes>(`/api/members/${memberId}/notes/${noteId}`)
+    },
+
+    //***Member receipts api's */
+    getAllReceipts: async (memberId: number) => {
+      return await httpClient.get<MemberReceipts[]>(`/api/members/${memberId}/member_receipts/`)
+    },
+
+    createReceipt: async (memberId: number, data: MemberReceiptsCreationData) => {
+      return await httpClient.post<MemberReceipts>(
+        `/api/members/${memberId}/member_receipts/`,
+        data
+      )
+    },
+
+    deleteReceipt: async (memberId: number, receiptId: number) => {
+      return await httpClient.delete<MemberReceipts>(
+        `/api/members/${memberId}/member_receipts/${receiptId}`
+      )
     }
   }
 }
