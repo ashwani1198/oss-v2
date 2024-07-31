@@ -17,8 +17,9 @@ const { query, currentPage } = storeToRefs(useMembers())
 const onSubmit = form.handleSubmit(async (values) => {
   if (currentPage.value !== 1) {
     // it will start from page 1 when search submit button is clicked if current page is not 1
-    currentPage.value = 1
-    ;(query.value.page = currentPage.value), (query.value = { ...query.value, ...values })
+    currentPage.value = 1;
+    (query.value.page = currentPage.value), 
+    (query.value = { ...query.value, ...values})
   } else {
     query.value = { ...query.value, ...values }
     showLoading()
@@ -74,11 +75,11 @@ const onCancel = async () => {
         <Button
           type="button"
           @click="onCancel"
-          class="w-32 bg-[#F8F9FA] text-black hover:bg-[#F8F9FA]"
+          class="w-32 bg-[#e5e7eb] text-black hover:bg-[#d1d5db]"
         >
           <p v-if="!form.isSubmitting.value">Cancel</p>
         </Button>
-        <Button type="submit" class="w-32 bg-black hover:bg-black" :disabled="!canSubmit">
+        <Button type="submit" class="w-32 bg-[#1f2937] hover:bg-[#111827]" :disabled="!canSubmit">
           <p v-if="!form.isSubmitting.value" class="flex justify-center items-center">Search</p>
           <RefreshCw v-else class="animate-spin" />
         </Button>
