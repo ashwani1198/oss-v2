@@ -1,5 +1,5 @@
 import { type FetchClient, type PaginationResult } from '@/api/httpClient'
-import { type Member, type MemberCreationData } from '../models'
+import type { Member, MemberCreationData, MemberNotesCreationData, MemberNotes } from '../models'
 import type { MemberQueryParams } from '@/api/utils/attachQueryParams'
 import { attachQueryParams, MemberQuerySchema } from '@/api/utils/attachQueryParams'
 
@@ -21,7 +21,19 @@ export default (httpClient: FetchClient) => {
     },
 
     deleteOne: async (memberId: number) => {
-      return await httpClient.delete<{ msg: string }>(`/api/members/${memberId}`)
+      return await httpClient.delete<Member>(`/api/members/${memberId}`)
+    },
+
+    //***Member notes api's */
+    getAllNotes: async (memberId: number) => {
+      return await httpClient.get<MemberNotes[]>(`/api/members/${memberId}/notes/`)
+    },
+    createNote: async (memberId: number, data: MemberNotesCreationData) => {
+      return await httpClient.post<MemberNotes>(`/api/members/${memberId}/notes/`, data)
+    },
+
+    deleteNote: async (memberId: number, noteId: number) => {
+      return await httpClient.delete<MemberNotes>(`/api/members/${memberId}/notes/${noteId}`)
     }
   }
 }

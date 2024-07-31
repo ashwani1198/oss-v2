@@ -43,7 +43,7 @@ export const useMembers = defineStore('members', () => {
     const parsedData = MemberSchema.safeParse(value)
 
     if (!parsedData.success) {
-      console.error('Invalid submission data', parsedData.error)
+      console.error('Invalid members data', parsedData.error)
       return
     }
 

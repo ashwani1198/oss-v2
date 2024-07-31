@@ -13,11 +13,12 @@ import { useLoadingDialog } from '@/composables/useLoadingDialog'
 import { useFormSheets } from '@/stores/shared/useSheets'
 import { useRouter } from 'vue-router/auto'
 import { type Member } from '@/api/oss/models'
+import AddMemberNoteForm from './AddMemberNoteForm.vue'
 
 const { showFormSheet } = useFormSheets()
-const { deleteOne, updateOne, fetchPaginatedMembers, setSelectedMember } = useMembers()
+const { updateOne, fetchPaginatedMembers, setSelectedMember } = useMembers()
 const { showLoading, hideLoading } = useLoadingDialog()
-const { currentPage, query } = storeToRefs(useMembers())
+const { query } = storeToRefs(useMembers())
 
 const props = defineProps<{
   member: Member
@@ -34,6 +35,7 @@ const viewProfile = (memberId: number) => {
 
 const router = useRouter()
 const showDelete = ref(false)
+const showCreateNote = ref(false)
 
 const confirmDelete = async () => {
   const result = await updateOne(props.member.id, {
@@ -55,6 +57,7 @@ const confirmDelete = async () => {
     desc="This cannot be undone"
     @confirm="confirmDelete"
   />
+  <AddMemberNoteForm v-model:is-open="showCreateNote" :member-id="member.id"></AddMemberNoteForm>
   <TableRow class="group odd:bg-white even:bg-gray-100">
     <TableCell class="font-medium p-2">
       {{ member.ref_id }}
@@ -84,7 +87,13 @@ const confirmDelete = async () => {
             <Button class="w-full flex justify-start" variant="ghost" @click="showDelete = true">
               Delete
             </Button>
-            <Button class="w-full flex justify-start" variant="ghost"> Add Notes </Button>
+            <Button
+              class="w-full flex justify-start"
+              variant="ghost"
+              @click="showCreateNote = true"
+            >
+              Add Notes
+            </Button>
             <Button class="w-full flex justify-start" variant="ghost"> Add Receipt </Button>
             <Button class="w-full flex justify-start" variant="ghost">
               Add Document Signing Date
@@ -110,8 +119,16 @@ const confirmDelete = async () => {
             <Button class="w-full flex justify-start" variant="ghost" @click="editMember(member)">
               Edit
             </Button>
-            <Button class="w-full flex justify-start" variant="ghost"> Delete </Button>
-            <Button class="w-full flex justify-start" variant="ghost"> Add Notes </Button>
+            <Button class="w-full flex justify-start" variant="ghost" @click="showDelete = true">
+              Delete
+            </Button>
+            <Button
+              class="w-full flex justify-start"
+              variant="ghost"
+              @click="showCreateNote = true"
+            >
+              Add Notes
+            </Button>
             <Button class="w-full flex justify-start" variant="ghost"> Add Receipt </Button>
             <Button class="w-full flex justify-start" variant="ghost">
               Add Document Signing Date

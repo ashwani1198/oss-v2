@@ -17,9 +17,8 @@ const { query, currentPage } = storeToRefs(useMembers())
 const onSubmit = form.handleSubmit(async (values) => {
   if (currentPage.value !== 1) {
     // it will start from page 1 when search submit button is clicked if current page is not 1
-    currentPage.value = 1;
-    (query.value.page = currentPage.value), 
-    (query.value = { ...query.value, ...values})
+    currentPage.value = 1
+    ;(query.value.page = currentPage.value), (query.value = { ...query.value, ...values })
   } else {
     query.value = { ...query.value, ...values }
     showLoading()
@@ -30,7 +29,7 @@ const onSubmit = form.handleSubmit(async (values) => {
 
 const onCancel = async () => {
   form.resetForm()
-  query.value = { ...query.value, ...form.values }
+  query.value = { ...query.value, ...form.values, membership_type: null }
   showLoading()
   await fetchPaginatedMembers(query.value)
   hideLoading()
