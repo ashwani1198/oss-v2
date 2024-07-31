@@ -1,6 +1,10 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { MemberReceiptsSchema, type MemberReceipts, type MemberReceiptsCreationData } from '@/api/oss/models'
+import {
+  MemberReceiptsSchema,
+  type MemberReceipts,
+  type MemberReceiptsCreationData
+} from '@/api/oss/models'
 import { AppApi } from '@/api/AppApi'
 import { useErrorToast } from '@/composables/useToastAlerts'
 

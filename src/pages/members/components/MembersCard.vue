@@ -27,17 +27,10 @@ const showCreateForm = () => {
         <MemberSearchFilterForm />
       </div>
       <div class="flex self-end gap-2">
-        <Button
-          class="md:w-[190px] w-full rounded-lg"
-          size="icon"
-          @click="showCreateForm"
-        >
+        <Button class="md:w-[190px] w-full rounded-lg" size="icon" @click="showCreateForm">
           <span class="capitalize">Add New Member</span>
         </Button>
-        <Button
-          class="md:w-[100px] bg-[#157347] hover:bg-[#157347] w-32 rounded-lg"
-          size="icon"
-        >
+        <Button class="md:w-[100px] bg-[#157347] hover:bg-[#157347] w-32 rounded-lg" size="icon">
           <span class="capitalize">Export All</span>
         </Button>
       </div>

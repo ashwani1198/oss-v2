@@ -73,9 +73,7 @@ const onSubmit = form.handleSubmit(async (values: MemberNotesCreationData) => {
       </DialogTrigger>
       <form @submit="onSubmit">
         <DialogHeader>
-          <DialogTitle class="capitalize tracking-wide font-semibold"
-            >Add Member Notes</DialogTitle
-          >
+          <DialogTitle class="capitalize tracking-wide font-semibold">Add Member Notes</DialogTitle>
           <DialogDescription>{{ '' }}</DialogDescription>
         </DialogHeader>
         <div class="w-full">
@@ -91,7 +89,11 @@ const onSubmit = form.handleSubmit(async (values: MemberNotesCreationData) => {
         </div>
         <DialogFooter>
           <div class="flex gap-2 justify-end">
-            <Button type="button" @click="close" class="mt-5 bg-[#e5e7eb] hover:bg-[#e5e7eb] text-black w-32">
+            <Button
+              type="button"
+              @click="close"
+              class="mt-5 bg-[#e5e7eb] hover:bg-[#e5e7eb] text-black w-32"
+            >
               Cancel
             </Button>
             <Button type="submit" class="mt-5 w-32">

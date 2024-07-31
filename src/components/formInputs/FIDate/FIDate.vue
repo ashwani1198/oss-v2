@@ -175,7 +175,7 @@ const setDate = (date: DateValue) => {
   >
     <FormItem>
       <FormLabel>{{ label }}</FormLabel>
-      <Popover :open="isPopoverOpen" @update:open="(open : boolean) => isPopoverOpen = open">
+      <Popover :open="isPopoverOpen" @update:open="(open: boolean) => (isPopoverOpen = open)">
         <PopoverTrigger as-child>
           <FormControl>
             <Button

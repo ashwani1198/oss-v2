@@ -24,7 +24,7 @@ export const MemberReceiptsCreationSchema = MemberReceiptsSchema.omit({
   is_deleted: true,
   member_id: true
 }).extend({
-    receipt_number: z.string({ required_error: 'Receipt number is required' })
+  receipt_number: z.string({ required_error: 'Receipt number is required' })
 })
 
 export type MemberReceiptsCreationData = z.infer<typeof MemberReceiptsCreationSchema>

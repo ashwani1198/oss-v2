@@ -90,5 +90,5 @@ export const MemberCreationSchema = MemberSchema.omit({
 export type MemberCreationData = z.infer<typeof MemberCreationSchema>
 
 export const LastDocumentSigningDateSchema = z.object({
-  last_document_sigining_date : DateStringSchema.optional().default(null)
-}) 
+  last_document_sigining_date: DateStringSchema.optional().default(null)
+})

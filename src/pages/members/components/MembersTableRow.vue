@@ -16,6 +16,7 @@ import { type Member } from '@/api/oss/models'
 import AddMemberNoteForm from './AddMemberNoteForm.vue'
 import AddMemberReceiptForm from './AddMemberReceiptForm.vue'
 import AddDocumentSigningDateForm from './AddDocumentSigningDateForm.vue'
+import ViewContractForm from './ViewContractForm.vue'
 
 const { showFormSheet } = useFormSheets()
 const { updateOne, fetchPaginatedMembers, setSelectedMember } = useMembers()
@@ -40,6 +41,7 @@ const showDelete = ref(false)
 const showCreateNote = ref(false)
 const showCreateReceipt = ref(false)
 const showAddDocumentSigningDate = ref(false)
+const showViewContract = ref(false)
 
 const confirmDelete = async () => {
   const result = await updateOne(props.member.id, {
@@ -71,6 +73,7 @@ const confirmDelete = async () => {
     :member-id="member.id"
     :last-document-signing-date="member.last_document_sigining_date"
   ></AddDocumentSigningDateForm>
+  <ViewContractForm v-model:is-open="showViewContract" :member="member"></ViewContractForm>
   <TableRow class="group odd:bg-white even:bg-gray-100">
     <TableCell class="font-medium p-2">
       {{ member.ref_id }}
@@ -121,7 +124,12 @@ const confirmDelete = async () => {
             >
               Add Document Signing Date
             </Button>
-            <Button class="w-full flex justify-start" variant="ghost">View Contract </Button>
+            <Button
+              class="w-full flex justify-start"
+              variant="ghost"
+              @click="showViewContract = true"
+              >View Contract
+            </Button>
             <Button
               class="w-full flex justify-start"
               variant="ghost"
@@ -166,7 +174,12 @@ const confirmDelete = async () => {
             >
               Add Document Signing Date
             </Button>
-            <Button class="w-full flex justify-start" variant="ghost">View Contract </Button>
+            <Button
+              class="w-full flex justify-start"
+              variant="ghost"
+              @click="showViewContract = true"
+              >View Contract
+            </Button>
             <Button
               class="w-full flex justify-start"
               variant="ghost"

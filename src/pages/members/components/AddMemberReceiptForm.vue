@@ -91,7 +91,11 @@ const onSubmit = form.handleSubmit(async (values: MemberReceiptsCreationData) =>
         </div>
         <DialogFooter>
           <div class="flex gap-2 justify-end">
-            <Button type="button" @click="close" class="mt-5 bg-[#e5e7eb] hover:bg-[#e5e7eb] text-black w-32">
+            <Button
+              type="button"
+              @click="close"
+              class="mt-5 bg-[#e5e7eb] hover:bg-[#e5e7eb] text-black w-32"
+            >
               Cancel
             </Button>
             <Button type="submit" class="mt-5 w-32">
