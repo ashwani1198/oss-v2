@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
 import Logo from '@/assets/images/nav-logo.png'
-import html2pdf from 'html2pdf.js'
+import { print } from '@/utils/print.Utils'
 import { Square, X, RefreshCw } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import {
@@ -39,27 +39,12 @@ const questions = ref([
   'Was your membership application ever revoked or rejected? '
 ])
 
-const exportToPDF2 = () => {
-  const element = contract.value
-  html2pdf()
-    .from(element)
-    .set({
-      jsPdf: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      filename: `oss-${props.member.ref_id}.pdf`,
-      html2canvas: { scale: 2, logging: true, dpi: 192 },
-      image: { type: 'jpeg', quality: 2 },
-      margin: 1,
-      pagebreak: { before: '.beforeClass', after: '.afterClass' }
-    })
-    .save()
-}
-
 const handleDownloadAsPdf = () => {
   isLoading.value = true
   setTimeout(() => {
-    exportToPDF2()
+    print(contract.value)
     isLoading.value = false
-  }, 1000)
+  }, 500)
 }
 </script>
 <template>
@@ -82,7 +67,7 @@ const handleDownloadAsPdf = () => {
         </DialogTitle>
         <DialogDescription>{{ '' }}</DialogDescription>
       </DialogHeader>
-      <div class="w-full p-3" ref="contract">
+      <div class="w-full p-3 no-break" ref="contract">
         <div class="flex justify-between items-center">
           <img
             :src="Logo"
@@ -194,7 +179,7 @@ const handleDownloadAsPdf = () => {
           <div class="p-2 border-t font-bold border-black mt-4 signatureWidth">Treasurer</div>
           <div class="p-2 border-t font-bold border-black mt-4 signatureWidth">Director</div>
         </div>
-        <h5 class="font-size text-center my-6 font-bold">Applications Signature</h5>
+        <h5 class="font-size text-center my-4 font-bold">Applications Signature</h5>
         <div
           class="text-center md:max-w-[1140px] sm:max-w-[720px] max-w-[540px] applicationSignature"
         >
@@ -204,27 +189,7 @@ const handleDownloadAsPdf = () => {
             <div class="font-size font-bold">Signature</div>
             <div class="font-size font-bold">Director</div>
           </div>
-          <div class="grid grid-cols-4 my-7 gap-4" v-for="i in 6" :key="i">
-            <div class="border-t border-black"></div>
-            <div class="border-t border-black"></div>
-            <div class="border-t border-black"></div>
-            <div class="border-t border-black"></div>
-          </div>
-        </div>
-        <div class="footer"></div>
-        <div class="border-b border-black mt-1"></div>
-
-        <h5 class="font-size mb-0 text-center font-normal">Ottawa Sikh Society</h5>
-        <div
-          class="text-center my-6 md:max-w-[1140px] sm:max-w-[720px] max-w-[540px] applicationSignature"
-        >
-          <div class="grid grid-cols-4 gap-2">
-            <div class="font-size font-bold">Receipt#</div>
-            <div class="font-size font-bold">Day/Month/Year</div>
-            <div class="font-size font-bold">Signature</div>
-            <div class="font-size font-bold">Director</div>
-          </div>
-          <div class="grid grid-cols-4 my-7 gap-4" v-for="i in 30" :key="i">
+          <div class="grid grid-cols-4 my-6 gap-4" v-for="i in 6" :key="i">
             <div class="border-t border-black"></div>
             <div class="border-t border-black"></div>
             <div class="border-t border-black"></div>
@@ -246,7 +211,7 @@ const handleDownloadAsPdf = () => {
             Cancel
           </Button>
           <Button type="button" class="mt-5 w-32" @click="handleDownloadAsPdf">
-            <p v-if="!isLoading">Download as PDF</p>
+            <p v-if="!isLoading">Print</p>
             <RefreshCw v-else class="animate-spin" />
           </Button>
         </div>
@@ -341,6 +306,13 @@ img {
   }
   .applicationSignature {
     padding: 0%;
+  }
+}
+
+@media print {
+  @page {
+    size: A4; /* or another size */
+    margin: 0mm;
   }
 }
 </style>
