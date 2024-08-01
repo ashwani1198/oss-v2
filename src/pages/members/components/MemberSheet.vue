@@ -19,19 +19,12 @@ const props = defineProps<{
   member?: Member
 }>()
 
-watch(selectedMember, () => {
-  if (!selectedMember.value) {
-    hideFormSheet()
-  } else {
-    showFormSheet('member')
-  }
-})
-
 const showForm = computed(() => {
   return sheetState.value.isOpen && sheetState.value.formSheetType === 'member'
 })
 
 const toggleFormSheet = () => {
+  console.log('toggle form sheet')
   setSelectedMember(undefined)
 
   hideFormSheet()

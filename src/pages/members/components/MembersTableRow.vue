@@ -32,8 +32,9 @@ const editMember = (member: Member) => {
   showFormSheet('member')
 }
 
-const viewProfile = (memberId: number) => {
-  router.push(`/members/${memberId}`)
+const viewProfile = () => {
+  setSelectedMember(props.member)
+  router.push(`/members/${props.member.id}`)
 }
 
 const router = useRouter()
@@ -133,7 +134,7 @@ const confirmDelete = async () => {
             <Button
               class="w-full flex justify-start"
               variant="ghost"
-              @click="viewProfile(member.id)"
+              @click.prevent="viewProfile"
               >View Profile
             </Button>
           </HoverCardContent>
@@ -183,7 +184,7 @@ const confirmDelete = async () => {
             <Button
               class="w-full flex justify-start"
               variant="ghost"
-              @click="viewProfile(member.id)"
+              @click.prevent="viewProfile"
               >View Profile
             </Button>
           </PopoverContent>
