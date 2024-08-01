@@ -122,15 +122,20 @@ const handleDownloadAsPdf = () => {
               Telephone : {{ member.primary_phone ?? '' }}
             </h1>
           </div>
-          <div class="grid grid-cols-12">
-            <div class="border-r col-span-4 border-black">
+          <div class="grid grid-cols-3">
+            <div class="border-r border-black">
               <h1 class="capitalize font-size p-2 font-normal mb-0">
                 Membership Type : {{ member.membership_type ?? '' }}
               </h1>
             </div>
-            <div class="col-span-8 border-black">
+            <div class="border-r border-black">
               <h1 class="capitalize font-size p-2 font-normal mb-0">
                 Email : {{ member.email ?? '' }}
+              </h1>
+            </div>
+            <div class=" border-black">
+              <h1 class="capitalize font-size p-2 font-normal mb-0">
+                Member Id : {{ member.id ?? '' }}
               </h1>
             </div>
           </div>
@@ -312,7 +317,7 @@ img {
 @media print {
   @page {
     size: A4; /* or another size */
-    margin: 0mm;
+    margin:0mm
   }
 }
 </style>
